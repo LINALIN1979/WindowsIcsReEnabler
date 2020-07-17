@@ -25,16 +25,21 @@ Write-Output "  Public : [$($publicInterface)] sharing $($configPublic.SharingEn
 Write-Output "  Private: [$($privateInterface)] sharing $($configPrivate.SharingEnabled), role $($configPrivate.SharingConnectionType)"
 Write-Output "  (Role has meaning when sharing = True; 0 - publice, 1 - private)"
 
-# Disable sharing first
-if ($configPrivate.SharingEnabled) {
-    $configPrivate.DisableSharing()
-}
-if ($configPublic.SharingEnabled) {
-    $configPublic.DisableSharing()
-}
 
-# Enable sharing
+# Disable private sharing first
+$configPrivate = $m.INetSharingConfigurationForINetConnection.Invoke($private)
+$configPrivate.DisableSharing()
+
+# Disable public sharing first
+$configPublic = $m.INetSharingConfigurationForINetConnection.Invoke($public)
+$configPublic.DisableSharing()
+
+# Enable public sharing
+$configPublic = $m.INetSharingConfigurationForINetConnection.Invoke($public)
 $configPublic.EnableSharing(0)
+
+# Enable private sharing
+$configPrivate = $m.INetSharingConfigurationForINetConnection.Invoke($private)
 $configPrivate.EnableSharing(1)
 
 Write-Output "After:"
