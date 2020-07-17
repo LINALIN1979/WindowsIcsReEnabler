@@ -16,3 +16,7 @@ Installation:
 Uninstallation:
 1. Open a command prompt with admin privilege,
    > uninstall.bat
+
+
+Notes:
+1. Before using this tool, it must be sure that Windows ICS is working now in your environment, otherwise the powershell script could fail.
